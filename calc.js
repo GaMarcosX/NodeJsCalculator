@@ -3,21 +3,17 @@
 const { select, input } = require("@inquirer/prompts");
 
 const numbers = [];
+
 const history = [];
 
 console.log("Bem vindo ao App de Calculadora");
 
 const calcular = async () => {
     console.clear();
-    const number = await input({
+    const number1 = await input({
         message: "Digite o numero aqui",
     });
-
-    if (number.length == 0 || number === "") {
-        console.log("Preencha com um número");
-        return;
-    }
-    numbers.push(number);
+    numbers.push(number1);
 
     const operador = await select({
         message: "Qual operação deseja fazer?",
@@ -62,56 +58,102 @@ const calcular = async () => {
     }
 };
 const sum = async () => {
+    const number1 = numbers[0];
     const number2 = await input({
         message: "Digite o segundo número",
     });
     numbers.push(number2);
-    await sumResult();
-};
-const sumResult = async () => {
-    resultado = parseFloat(numbers[0]) + parseFloat(numbers[1]);
 
-    console.log(resultado);
+    const sumResult = () => {
+        resultado = parseFloat(numbers[0]) + parseFloat(numbers[1]);
+
+        console.log(resultado);
+    };
+    sumResult();
+
+    const index1 = numbers.indexOf(number1);
+    if (index1 > -1) {
+        numbers.splice(index1, 1);
+    }
+
+    const index2 = numbers.indexOf(number2);
+    if (index2 > -1) {
+        numbers.splice(index2, 1);
+    }
 };
+
 const sub = async () => {
+    const number1 = numbers[0];
     const number2 = await input({
         message: "Digite o segundo número",
     });
     numbers.push(number2);
-    await subResult();
-};
-const subResult = async () => {
-    resultado = parseFloat(numbers[0]) - parseFloat(numbers[1]);
+    const subResult = async () => {
+        resultado = parseFloat(numbers[0]) - parseFloat(numbers[1]);
 
-    console.log(resultado);
+        console.log(resultado);
+    };
+    ~subResult();
+    const index1 = numbers.indexOf(number1);
+    if (index1 > -1) {
+        numbers.splice(index1, 1);
+    }
+
+    const index2 = numbers.indexOf(number2);
+    if (index2 > -1) {
+        numbers.splice(index2, 1);
+    }
 };
+
 const mul = async () => {
+    const number1 = numbers[0];
     const number2 = await input({
         message: "Digite o segundo número",
     });
     numbers.push(number2);
-    await mulResult();
-};
-const mulResult = async () => {
-    resultado = parseFloat(numbers[0]) * parseFloat(numbers[1]);
+    const mulResult = async () => {
+        resultado = parseFloat(numbers[0]) * parseFloat(numbers[1]);
 
-    console.log(resultado);
+        console.log(resultado);
+    };
+    mulResult();
+    const index1 = numbers.indexOf(number1);
+    if (index1 > -1) {
+        numbers.splice(index1, 1);
+    }
+
+    const index2 = numbers.indexOf(number2);
+    if (index2 > -1) {
+        numbers.splice(index2, 1);
+    }
 };
+
 const div = async () => {
+    const number1 = numbers[0];
     const number2 = await input({
         message: "Digite o segundo número",
     });
     numbers.push(number2);
-    await divResult();
-};
-const divResult = async () => {
-    resultado = parseFloat(numbers[0]) / parseFloat(numbers[1]);
+    const divResult = async () => {
+        resultado = parseFloat(numbers[0]) / parseFloat(numbers[1]);
 
-    console.log(resultado);
+        console.log(resultado);
+    };
+    divResult();
+    const index1 = numbers.indexOf(number1);
+    if (index1 > -1) {
+        numbers.splice(index1, 1);
+    }
+
+    const index2 = numbers.indexOf(number2);
+    if (index2 > -1) {
+        numbers.splice(index2, 1);
+    }
 };
 
 const start = async () => {
     while (true) {
+        console.log(numbers);
         const opcao = await select({
             message: "o que deseja fazer?",
             choices: [
