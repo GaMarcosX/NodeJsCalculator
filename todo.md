@@ -5,3 +5,5 @@
 [ ] Posso continuar a conta, com o resultado.
 [ ] Guardar no Histórico
 [ ] Ver do Histórico
+
+voce parou tentando encontrar uma forma de somar o resultado da ultima conta com o novo numero, caso o usuario prociga fazendo contas.

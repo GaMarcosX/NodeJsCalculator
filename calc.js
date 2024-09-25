@@ -8,13 +8,15 @@ const history = [];
 
 console.log("Bem vindo ao App de Calculadora");
 
-const calcular = async () => {
+const primeiroNumero = async () => {
     console.clear();
     const number1 = await input({
         message: "Digite o numero aqui",
     });
     numbers.push(number1);
-
+    await operador();
+};
+const operador = async () => {
     const operador = await select({
         message: "Qual operação deseja fazer?",
         choices: [
@@ -58,97 +60,65 @@ const calcular = async () => {
     }
 };
 const sum = async () => {
-    const number1 = numbers[0];
     const number2 = await input({
         message: "Digite o segundo número",
     });
     numbers.push(number2);
 
     const sumResult = () => {
-        resultado = parseFloat(numbers[0]) + parseFloat(numbers[1]);
+        if (numbers.length !== 0) {
+            resultado = parseFloat(numbers[0]) + parseFloat(numbers[1]);
+            history.push(resultado);
+            console.log(resultado);
+        }
 
-        console.log(resultado);
+        //RACIOCINIO PAROU AQUI
+        if (numbers.length === 1) {
+            resultado =
+                parseFloat(history[history.length - 1]) +
+                parseFloat(numbers[1]);
+            history.push(resultado);
+        }
     };
     sumResult();
 
-    const index1 = numbers.indexOf(number1);
-    if (index1 > -1) {
-        numbers.splice(index1, 1);
-    }
-
-    const index2 = numbers.indexOf(number2);
-    if (index2 > -1) {
-        numbers.splice(index2, 1);
-    }
-};
-
-const sub = async () => {
-    const number1 = numbers[0];
-    const number2 = await input({
-        message: "Digite o segundo número",
+    const continuar = await select({
+        message: "Deseja continuar a operação?",
+        choices: [
+            {
+                name: "Sim",
+                value: "sim",
+            },
+            {
+                name: "Não",
+                value: "nao",
+            },
+        ],
     });
-    numbers.push(number2);
-    const subResult = async () => {
-        resultado = parseFloat(numbers[0]) - parseFloat(numbers[1]);
+    switch (continuar) {
+        case "sim":
+            await proceed();
+            break;
+        case "não":
+            return;
+    }
 
-        console.log(resultado);
+    const paraHistórico = () => {
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
+        }
+
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
+        }
     };
-    ~subResult();
-    const index1 = numbers.indexOf(number1);
-    if (index1 > -1) {
-        numbers.splice(index1, 1);
-    }
-
-    const index2 = numbers.indexOf(number2);
-    if (index2 > -1) {
-        numbers.splice(index2, 1);
-    }
+    paraHistórico();
 };
-
-const mul = async () => {
-    const number1 = numbers[0];
-    const number2 = await input({
-        message: "Digite o segundo número",
-    });
-    numbers.push(number2);
-    const mulResult = async () => {
-        resultado = parseFloat(numbers[0]) * parseFloat(numbers[1]);
-
-        console.log(resultado);
-    };
-    mulResult();
-    const index1 = numbers.indexOf(number1);
-    if (index1 > -1) {
-        numbers.splice(index1, 1);
-    }
-
-    const index2 = numbers.indexOf(number2);
-    if (index2 > -1) {
-        numbers.splice(index2, 1);
-    }
-};
-
-const div = async () => {
-    const number1 = numbers[0];
-    const number2 = await input({
-        message: "Digite o segundo número",
-    });
-    numbers.push(number2);
-    const divResult = async () => {
-        resultado = parseFloat(numbers[0]) / parseFloat(numbers[1]);
-
-        console.log(resultado);
-    };
-    divResult();
-    const index1 = numbers.indexOf(number1);
-    if (index1 > -1) {
-        numbers.splice(index1, 1);
-    }
-
-    const index2 = numbers.indexOf(number2);
-    if (index2 > -1) {
-        numbers.splice(index2, 1);
-    }
+// adicionar outros operadores..
+const proceed = async () => {
+    await operador();
 };
 
 const start = async () => {
@@ -169,7 +139,7 @@ const start = async () => {
         });
         switch (opcao) {
             case "calc":
-                await calcular();
+                await primeiroNumero();
                 break;
         }
     }
