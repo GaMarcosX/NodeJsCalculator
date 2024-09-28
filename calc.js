@@ -6,13 +6,19 @@ const numbers = [];
 
 const history = [];
 
-console.log("Bem vindo ao App de Calculadora");
+console.log("Bem vindo ao App de Calculadora!");
 
 const primeiroNumero = async () => {
     console.clear();
+
     const number1 = await input({
         message: "Digite o numero aqui",
     });
+
+    if (number1.length === 0) {
+        console.log("Não pode ser vazio");
+        return primeiroNumero();
+    }
     numbers.push(number1);
     await operador();
 };
@@ -63,24 +69,48 @@ const sum = async () => {
     const number2 = await input({
         message: "Digite o segundo número",
     });
+    if (number2.length === 0) {
+        console.log("Não pode ser vazio");
+
+        return sum();
+    }
     numbers.push(number2);
 
-    const sumResult = () => {
-        if (numbers.length !== 0) {
-            resultado = parseFloat(numbers[0]) + parseFloat(numbers[1]);
-            history.push(resultado);
-            console.log(resultado);
+    if (numbers.length == 2) {
+        const number1 = numbers[0];
+        const number2 = numbers[1];
+        let resultado = parseFloat(number1) + parseFloat(number2);
+
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
         }
 
-        //RACIOCINIO PAROU AQUI
-        if (numbers.length === 1) {
-            resultado =
-                parseFloat(history[history.length - 1]) +
-                parseFloat(numbers[1]);
-            history.push(resultado);
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
         }
-    };
-    sumResult();
+    } else {
+        const number1 = numbers[0];
+        const number2 = history[history.length - 1];
+        let resultado = parseFloat(number1) + parseFloat(number2);
+
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
+        }
+
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
+        }
+    }
 
     const continuar = await select({
         message: "Deseja continuar a operação?",
@@ -95,15 +125,35 @@ const sum = async () => {
             },
         ],
     });
+
     switch (continuar) {
         case "sim":
-            await proceed();
+            console.log("Último Número: " + history[history.length - 1]);
+            await operador();
             break;
         case "não":
             return;
     }
+};
+const sub = async () => {
+    const number2 = await input({
+        message: "Digite o segundo número",
+    });
+    if (number2.length === 0) {
+        console.log("Não pode ser vazio");
 
-    const paraHistórico = () => {
+        return sum();
+    }
+    numbers.push(number2);
+
+    if (numbers.length == 2) {
+        const number1 = numbers[0];
+        const number2 = numbers[1];
+        let resultado = parseFloat(number1) - parseFloat(number2);
+
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
         const index1 = numbers.indexOf(number1);
         if (index1 > -1) {
             numbers.splice(index1, 1);
@@ -113,17 +163,190 @@ const sum = async () => {
         if (index2 > -1) {
             numbers.splice(index2, 1);
         }
-    };
-    paraHistórico();
-};
-// adicionar outros operadores..
-const proceed = async () => {
-    await operador();
-};
+    } else {
+        const number1 = numbers[0];
+        const number2 = history[history.length - 1];
+        let resultado = parseFloat(number1) - parseFloat(number2);
 
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
+        }
+
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
+        }
+    }
+
+    const continuar = await select({
+        message: "Deseja continuar a operação?",
+        choices: [
+            {
+                name: "Sim",
+                value: "sim",
+            },
+            {
+                name: "Não",
+                value: "nao",
+            },
+        ],
+    });
+
+    switch (continuar) {
+        case "sim":
+            console.log("Último Número: " + history[history.length - 1]);
+            await operador();
+            break;
+        case "não":
+            return;
+    }
+};
+const mul = async () => {
+    const number2 = await input({
+        message: "Digite o segundo número",
+    });
+    if (number2.length === 0) {
+        console.log("Não pode ser vazio");
+
+        return sum();
+    }
+    numbers.push(number2);
+
+    if (numbers.length == 2) {
+        const number1 = numbers[0];
+        const number2 = numbers[1];
+        let resultado = parseFloat(number1) * parseFloat(number2);
+
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
+        }
+
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
+        }
+    } else {
+        const number1 = numbers[0];
+        const number2 = history[history.length - 1];
+        let resultado = parseFloat(number1) * parseFloat(number2);
+
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
+        }
+
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
+        }
+    }
+
+    const continuar = await select({
+        message: "Deseja continuar a operação?",
+        choices: [
+            {
+                name: "Sim",
+                value: "sim",
+            },
+            {
+                name: "Não",
+                value: "nao",
+            },
+        ],
+    });
+
+    switch (continuar) {
+        case "sim":
+            console.log("Último Número: " + history[history.length - 1]);
+            await operador();
+            break;
+        case "não":
+            return;
+    }
+};
+const div = async () => {
+    const number2 = await input({
+        message: "Digite o segundo número",
+    });
+    if (number2.length === 0) {
+        console.log("Não pode ser vazio");
+
+        return sum();
+    }
+    numbers.push(number2);
+
+    if (numbers.length == 2) {
+        const number1 = numbers[0];
+        const number2 = numbers[1];
+        let resultado = parseFloat(number1) / parseFloat(number2);
+
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
+        }
+
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
+        }
+    } else {
+        const number1 = numbers[0];
+        const number2 = history[history.length - 1];
+        let resultado = parseFloat(number1) / parseFloat(number2);
+
+        console.log("Seu resultado é: " + resultado);
+        history.push(resultado.toString());
+
+        const index1 = numbers.indexOf(number1);
+        if (index1 > -1) {
+            numbers.splice(index1, 1);
+        }
+
+        const index2 = numbers.indexOf(number2);
+        if (index2 > -1) {
+            numbers.splice(index2, 1);
+        }
+    }
+
+    const continuar = await select({
+        message: "Deseja continuar a operação?",
+        choices: [
+            {
+                name: "Sim",
+                value: "sim",
+            },
+            {
+                name: "Não",
+                value: "nao",
+            },
+        ],
+    });
+
+    switch (continuar) {
+        case "sim":
+            console.log("Último Número: " + history[history.length - 1]);
+            await operador();
+            break;
+        case "não":
+            return;
+    }
+};
 const start = async () => {
     while (true) {
-        console.log(numbers);
         const opcao = await select({
             message: "o que deseja fazer?",
             choices: [
@@ -135,12 +358,23 @@ const start = async () => {
                     name: "Histórico",
                     value: "hist",
                 },
+                {
+                    name: "Sair",
+                    value: "sair",
+                },
             ],
         });
         switch (opcao) {
             case "calc":
                 await primeiroNumero();
                 break;
+            case "hist":
+                await historico();
+                break;
+            case "sair":
+                console.log("Saindo...");
+                console.clear;
+                process.exit(0);
         }
     }
 };
